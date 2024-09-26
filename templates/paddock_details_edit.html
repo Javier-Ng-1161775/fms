@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>{{paddock_details[1]}}</h2>
+
+<form action="/paddock_details/edit/update" method="post">   <!-- the URL and method="post" are crucial for app.py to be able to read the data from this form -->
+
+    <table class="table simple-table">   <!-- Bootstrap style and our own style applied -->
+        <tr>
+            <td>ID</td>
+            <td>{{paddock_details[0]}}
+                <input type="hidden" name="id" id="id" value="{{paddock_details[0]}}"></td>   <!-- Still stores ID as a value in the form, but it can't be edited by the user -->
+        </tr>
+        <tr>
+            <td>Paddock Name</td>   
+            <td><input type="text" name="name" id="name" value="{{paddock_details[1]}}"></td> <!-- Shows an input box starting with the current value, which the user can then edit -->
+        </tr>
+        <tr>
+            <td>Area</td>
+            <td><input type="text" name="area" id="area" value="{{paddock_details[2]}}"></td> <!-- Shows an input box starting with the current value, which the user can then edit -->
+        </tr>
+        <tr>
+            <td>Dm per ha</td>
+            <td><input type="text" name="dm_per_ha" id="dm_per_ha" value="{{paddock_details[3]}}"></td> <!-- Shows an input box starting with the current value, which the user can then edit -->
+        </tr>
+    </table>
+    
+    <input type="submit" value="Submit">    <!-- This is needed to submit the form -->
+
+</form>
+<p><br></p>
+
+
+{% endblock %}

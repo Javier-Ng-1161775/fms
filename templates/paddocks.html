@@ -20,7 +20,7 @@
         <tbody>
             {% for paddock in paddocks %}
                 <tr class="{% if paddock[3] < 1500 %}table-danger{% elif paddock[3] < 1800 %}table-warning{% endif %}">
-                    <td>{{ paddock[1] }}</td>
+                    <td><a href="{{ url_for('paddock_details_edit', id=paddock[0]) }}">{{ paddock[1] }}</a></td> <!-- Make the paddock name clickable -->
                     <td>{{ paddock[2] }}</td>
                     <td>{{ paddock[3] }}</td>
                     <td>{{ paddock[4] }}</td>
@@ -30,6 +30,27 @@
             {% endfor %}
         </tbody>
     </table>
+    <!-- Add Paddock Button -->
+    <a href="{{ url_for('add_paddock') }}" class="btn btn-primary mt-3">Add New Paddock</a>
+
+    <!-- <table class="table simple-table">   
+        <tr> -->
+            <!-- Table column headings -->
+            <!-- <th>ID</th>
+            <th>Name</th>
+            <th>Area</th>
+            <th>Dm per ha</th>
+        </tr>
+        {% for paddock_details in paddocks %} 
+            <tr>
+                <td><a href="/paddock_details?id={{paddock_details[0]}}">{{paddock_details[0]}}</a></td>   
+                <td><a href="/paddock_details?id={{paddock_details[0]}}">{{paddock_details[1]}}</a></td>   
+                <td><a href="/paddock_details?id={{paddock_details[0]}}">{{paddock_details[2]}}</a></td>   
+                <td><a href="/paddock_details?id={{paddock_details[0]}}">{{paddock_details[3]}}</a></td>   
+            </tr>
+        {% endfor %}    
+    </table> -->
+
 </div>
 
 {% endblock %}

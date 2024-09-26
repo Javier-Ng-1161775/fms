@@ -185,3 +185,69 @@ def move_mob():
     flash("Mob moved successfully!", "success")
     return redirect(url_for("mobs")) 
 
+
+#create a paddocks/add route
+@app.route("/add_paddock", methods=["GET", "POST"])
+def add_paddock():
+    """Route to add a new paddock."""
+    if request.method == "POST":
+        try:
+            name = request.form.get("name")
+            area = float(request.form.get("area"))
+            dm_per_ha = float(request.form.get("dm_per_ha"))
+            
+            total_dm = area * dm_per_ha
+            
+            connection = getCursor()
+            
+            # Insert the new paddock into the database
+            insert_query = """
+            INSERT INTO paddocks (name, area, dm_per_ha, total_dm)
+            VALUES (%s, %s, %s, %s)
+            """
+            connection.execute(insert_query, (name, area, dm_per_ha, total_dm))
+            
+            flash("Paddock added successfully!", "success")
+        except Exception as e:
+            print(f"Error adding paddock: {e}")
+            flash("Failed to add paddock. Please try again.", "danger")
+
+        return redirect(url_for("paddocks"))  # Redirect back to the paddocks page
+    
+    return render_template("add_paddock.html")
+
+@app.route("/paddock_details", methods=['GET'])  # Uses the GET method to extract the data from the URL (after the ? in the URL)
+def paddock_details():
+
+    connection = getCursor()
+    id = request.args.get('id')         
+    qstr = "SELECT * FROM paddocks WHERE id = %s;"
+    qargs = (id,)   # the items in this tuple are placed into the SQL query where the %s markers are, in the order they appear in the query
+    connection.execute(qstr,qargs)      # Note the second qargs argument, which provides the data to match the %s markers in the qstr 
+    paddock_details = connection.fetchone()      # Returns only one row from the query - as a tuple.
+    return render_template("paddock_details.html", paddock_details=paddock_details)
+
+@app.route("/paddock_details/edit", methods=['GET'])
+def paddock_details_edit():
+
+    connection = getCursor()
+    id = request.args.get('id')
+    qstr = "SELECT * FROM paddocks where id = %s;"
+    qargs = (id,)
+    connection.execute(qstr,qargs)
+    paddock_details = connection.fetchone()
+    return render_template("paddock_details_edit.html", paddock_details=paddock_details)   # This page displays a form that can return data.
+
+@app.route("/paddock_details/edit/update", methods=['POST'])   
+def paddock_details_edit_update():
+
+    connection = getCursor()
+    formvals = request.form    # Returns a dictionary of {form-element-name: value} pairs
+    qstr = """update paddocks         
+                set name = %s, area = %s, dm_per_ha = %s					
+                where id = %s;"""   
+    qargs = (formvals['name'], formvals['area'], formvals['dm_per_ha'], formvals['id'])    # 3 parameters to match the 3 %s markers in the order the appear in the query
+    connection.execute(qstr,qargs)          # The query executes here, but UPDATE queries make the changes in the database, but don't send any
+                                            #   data back to Python - so there is no data to assign to a variable from fetchall() or fetchone()
+    return redirect("/paddock_details?id="+formvals['id'])   
+

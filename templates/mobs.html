@@ -28,7 +28,7 @@
                             <select name="paddock_id" required>
                                 <option value="" disabled selected>Select a new paddock</option>
                                 {% for paddock in available_paddocks %}
-                                    <option value="{{ paddock[0] }}">{{ paddock[1] }}</option>  <!-- Corrected index -->
+                                    <option value="{{ paddock[0] }}">{{ paddock[1] }}</option>  
                                 {% endfor %}
                             </select>
                             <button type="submit">Move Mob</button>

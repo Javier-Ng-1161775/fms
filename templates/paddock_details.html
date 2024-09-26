@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>{{paddock_details[1]}}</h2>
+
+<p><a href="/paddock_details/edit?id={{paddock_details[0]}}">Edit</a>
+
+<table class="table simple-table">   <!-- Bootstrap style and our own style applied to make the table look nicer than the (ugly) HTML default -->
+    <tr>
+        <td><b>ID</b></td>
+        <td>{{paddock_details[0]}}</td>
+    </tr>
+    <tr>
+        <td><b>Name</b></td>   
+         <td>{{paddock_details[1]}}</td>
+    </tr>
+    <tr>
+        <td><b>Area</b></td>
+        <td>{{paddock_details[2]}}</td>
+    </tr>
+    <tr>
+        <td><b>Dm per ha</b></td>
+        <td>{{paddock_details[3]}}</td>
+    </tr>
+</table>
+
+<p><br></p>
+
+
+{% endblock %}
