@@ -4,41 +4,8 @@
 
 {% block content %}
 
-<!-- <div class="mt-4">
-    <h2 class="mb-4">Mobs</h2>
-    <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>Mob ID</th>
-                <th>Mob Name</th>
-                <th>Paddock Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for mob in mobs %}
-                <tr>
-                    <td>{{ mob[0] }}</td>
-                    <td>{{ mob[1] }}</td>
-                    <td>{{ mob[2] }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div> -->
-
 <div class="mt-4">
     <h2 class="mb-4">Mobs</h2>
-
-    <!-- Flash messages section -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
 
     <table class="table table-striped table-bordered">
         <thead class="thead-dark">

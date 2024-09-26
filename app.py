@@ -173,36 +173,15 @@ def paddocks():
 def move_mob():
     """Move a mob to a different paddock."""
     connection = None
-    try:
-        mob_id = request.form.get("mob_id")
-        new_paddock_id = request.form.get("paddock_id")
+ 
+    mob_id = request.form.get("mob_id")
+    new_paddock_id = request.form.get("paddock_id")
 
-        connection = getCursor()
+    connection = getCursor()
 
-        # Check if the new paddock is already occupied by another mob
-        check_query = "SELECT id FROM mobs WHERE paddock_id = %s"
-        connection.execute(check_query, (new_paddock_id,))
-        occupied_mob = connection.fetchone()
+    update_query = "UPDATE mobs SET paddock_id = %s WHERE id = %s"
+    connection.execute(update_query, (new_paddock_id, mob_id))
 
-        if occupied_mob:
-            flash("The selected paddock is already occupied by another mob.", "danger")
-            return redirect(url_for("mobs"))
-
-        # Update the mob's paddock
-        update_query = "UPDATE mobs SET paddock_id = %s WHERE id = %s"
-        connection.execute(update_query, (new_paddock_id, mob_id))
-
-        connection.commit()  # Commit the changes
-        flash("Mob moved successfully!", "success")
-
-    except Exception as e:
-        # Log the error for debugging
-        print(f"Error moving mob: {e}")  # Replace with logging in production
-        flash("An error occurred while moving the mob.", "danger")
-
-    finally:
-        if connection:
-            connection.close()  # Ensure the connection is closed
-
-    return redirect(url_for("mobs"))  # Always redirect back to mobs
+    flash("Mob moved successfully!", "success")
+    return redirect(url_for("mobs")) 
 

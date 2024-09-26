@@ -24,9 +24,13 @@
       <header>
         {% block header %}{% endblock %}
       </header>
-      {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-      {% endfor %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+          {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+      {% endif %}
+      {% endwith %}
       {% block content %}{% endblock %}
     </section>
     <!-- JavaScript Bundle with Popper -->
