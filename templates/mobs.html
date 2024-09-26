@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Mobs{% endblock %}
+
+{% block content %}
+
+<h2>Mobs</h2>
+
+    <table>   
+        <tr>
+            <th>Mob ID</th>
+            <th>Mob Name</th>
+        </tr>
+        {% for mob in mobs %}  
+            <tr>
+                <td>{{mob[0]}}</td>  
+                <td>{{mob[1]}}</td>  
+            </tr>
+        {% endfor %}    
+    </table>
+
+{% endblock %}
