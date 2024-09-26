@@ -11,15 +11,15 @@
             <tr>
                 <th>Name</th>
                 <th>Area</th>
-                <th>Dm Per Ha</th>
-                <th>Total Dm</th>
+                <th>DM/ha</th>
+                <th>Total DM</th>
                 <th>Mob Name</th>
                 <th>Number of Stock</th>
             </tr>
         </thead>
         <tbody>
             {% for paddock in paddocks %}
-                <tr>
+                <tr class="{% if paddock[3] < 1500 %}table-danger{% elif paddock[3] < 1800 %}table-warning{% endif %}">
                     <td>{{ paddock[1] }}</td>
                     <td>{{ paddock[2] }}</td>
                     <td>{{ paddock[3] }}</td>

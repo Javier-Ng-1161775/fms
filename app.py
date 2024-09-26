@@ -4,6 +4,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from flask import session
+from flask import flash
 from datetime import date, datetime, timedelta
 import mysql.connector
 import connect
@@ -65,7 +66,7 @@ def reset_date():
 def mobs():
     """List the mob details (excludes the stock in each mob)."""
     connection = getCursor()        
-    qstr = """
+    qstr_mobs = """
     SELECT 
         m.id, m.name, p.name
     FROM 
@@ -75,9 +76,19 @@ def mobs():
     ORDER BY 
         m.name ASC;
     """
-    connection.execute(qstr)        
-    mobs = connection.fetchall()        
-    return render_template("mobs.html", mobs=mobs)  
+    connection.execute(qstr_mobs)        
+    mobs = connection.fetchall()
+
+    # Fetch available paddocks
+    qstr_available_paddocks = """
+    SELECT * 
+    FROM paddocks
+    WHERE id NOT IN (SELECT paddock_id FROM mobs);
+    """
+    connection.execute(qstr_available_paddocks)
+    available_paddocks = connection.fetchall()
+
+    return render_template("mobs.html", mobs=mobs, available_paddocks=available_paddocks)
 
 @app.route("/stocks")
 def stocks():
@@ -158,4 +169,40 @@ def paddocks():
     paddocks = connection.fetchall()     
     return render_template("paddocks.html", paddocks=paddocks)  
 
+@app.route("/move_mob", methods=["POST"])
+def move_mob():
+    """Move a mob to a different paddock."""
+    connection = None
+    try:
+        mob_id = request.form.get("mob_id")
+        new_paddock_id = request.form.get("paddock_id")
+
+        connection = getCursor()
+
+        # Check if the new paddock is already occupied by another mob
+        check_query = "SELECT id FROM mobs WHERE paddock_id = %s"
+        connection.execute(check_query, (new_paddock_id,))
+        occupied_mob = connection.fetchone()
+
+        if occupied_mob:
+            flash("The selected paddock is already occupied by another mob.", "danger")
+            return redirect(url_for("mobs"))
+
+        # Update the mob's paddock
+        update_query = "UPDATE mobs SET paddock_id = %s WHERE id = %s"
+        connection.execute(update_query, (new_paddock_id, mob_id))
+
+        connection.commit()  # Commit the changes
+        flash("Mob moved successfully!", "success")
+
+    except Exception as e:
+        # Log the error for debugging
+        print(f"Error moving mob: {e}")  # Replace with logging in production
+        flash("An error occurred while moving the mob.", "danger")
+
+    finally:
+        if connection:
+            connection.close()  # Ensure the connection is closed
+
+    return redirect(url_for("mobs"))  # Always redirect back to mobs
 
