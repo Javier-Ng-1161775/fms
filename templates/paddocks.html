@@ -4,6 +4,32 @@
 
 {% block content %}
 
-<p>Paddocks</p>
+<div class="mt-4">
+    <h2 class="mb-4">Paddocks</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Area</th>
+                <th>Dm Per Ha</th>
+                <th>Total Dm</th>
+                <th>Mob Name</th>
+                <th>Number of Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paddock in paddocks %}
+                <tr>
+                    <td>{{ paddock[1] }}</td>
+                    <td>{{ paddock[2] }}</td>
+                    <td>{{ paddock[3] }}</td>
+                    <td>{{ paddock[4] }}</td>
+                    <td>{{ paddock[5] }}</td>
+                    <td>{{ paddock[6] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}

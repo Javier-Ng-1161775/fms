@@ -66,11 +66,15 @@ def mobs():
     """List the mob details (excludes the stock in each mob)."""
     connection = getCursor()        
     qstr = """
-            SELECT m.id, m.name, p.name
-            FROM mobs m
-            JOIN paddocks p ON m.paddock_id = p.id
-            ORDER BY m.name ASC;
-            """
+    SELECT 
+        m.id, m.name, p.name
+    FROM 
+        mobs m
+    JOIN 
+        paddocks p ON m.paddock_id = p.id
+    ORDER BY 
+        m.name ASC;
+    """
     connection.execute(qstr)        
     mobs = connection.fetchall()        
     return render_template("mobs.html", mobs=mobs)  
@@ -80,28 +84,35 @@ def stocks():
     """List the stock details"""
     connection = getCursor()        
     qstr_mob = """
-            SELECT 
-                m.id AS mob_id,
-                m.name AS mob_name, 
-                p.name AS paddock_name,
-                COUNT(s.id) AS number_of_stock, 
-                ROUND(AVG(s.weight), 2) AS average_weight
-            FROM 
-                mobs m
-            JOIN 
-                paddocks p ON m.paddock_id = p.id
-            LEFT JOIN 
-                stock s ON m.id = s.mob_id
-            GROUP BY 
-                m.id, p.name
-            ORDER BY 
-                m.name ASC;
-            """
+    SELECT 
+        m.id AS mob_id,
+        m.name AS mob_name, 
+        p.name AS paddock_name,
+        COUNT(s.id) AS number_of_stock, 
+        ROUND(AVG(s.weight), 2) AS average_weight
+    FROM 
+        mobs m
+    JOIN 
+        paddocks p ON m.paddock_id = p.id
+    LEFT JOIN 
+        stock s ON m.id = s.mob_id
+    GROUP BY 
+        m.id, p.name
+    ORDER BY 
+        m.name ASC;
+    """
     connection.execute(qstr_mob)        
     stocks = connection.fetchall()
     
     # Fetch detailed stock data
-    qstr_stock_details = "SELECT id, mob_id, dob, weight FROM stock;"
+    qstr_stock_details = """
+    SELECT 
+        id, mob_id, dob, weight 
+    FROM 
+        stock 
+    ORDER BY 
+        id;
+    """
     connection.execute(qstr_stock_details)
     stock_details = connection.fetchall()
     
@@ -122,6 +133,29 @@ def stocks():
 @app.route("/paddocks")
 def paddocks():
     """List paddock details."""
-    return render_template("paddocks.html")  
+    connection = getCursor()        
+    qstr_paddocks = """
+    SELECT 
+        p.id AS paddock_id,
+        p.name AS paddock_name,
+        p.area AS paddock_area,
+        p.dm_per_ha AS dm_per_ha,
+        p.total_dm AS total_dm,
+        m.name AS mob_name,
+        COUNT(s.id) AS number_of_stock
+    FROM 
+        paddocks p
+    LEFT JOIN 
+        mobs m ON p.id = m.paddock_id
+    LEFT JOIN 
+        stock s ON m.id = s.mob_id
+    GROUP BY 
+        p.id, m.id
+    ORDER BY 
+        p.name ASC;
+            """
+    connection.execute(qstr_paddocks)        
+    paddocks = connection.fetchall()     
+    return render_template("paddocks.html", paddocks=paddocks)  
 
 
