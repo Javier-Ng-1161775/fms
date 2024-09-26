@@ -8,11 +8,16 @@
   </head>
 
   <body>
-    <nav>
-      <h2>Farm Management Simulator</h2>
-      <p><a href="{{url_for('home')}}">Home</a></p>
-      <p><a href="{{url_for('mobs')}}">Mobs</a></p>
+    
+    <nav class="d-flex justify-content-between align-items-center p-3 bg-light">
+      <h2 class="mb-0">Farm Management Simulator</h2>
+      <div>
+        <a href="{{ url_for('home') }}" class="mx-2" style="color: black; text-decoration: none;">Home</a>
+        <a href="{{ url_for('mobs') }}" class="mx-2" style="color: black; text-decoration: none;">Mobs</a>
+        <a href="{{ url_for('paddocks') }}" class="mx-2" style="color: black; text-decoration: none;">Paddocks</a>        
+      </div>
     </nav>
+
     <p>{% if session['curr_date'] %}Today is: {{session['curr_date'].strftime("%d %B %Y")}}{% endif %}</p>
 
     <section class="content">
