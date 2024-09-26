@@ -33,6 +33,16 @@ def getCursor():
    
     return cursor
 
+def calculate_age(dob):
+    if dob is None:
+        return None
+    if isinstance(dob, datetime):
+        dob_datetime = dob
+    else:
+        dob_datetime = datetime.combine(dob, datetime.min.time())  # Convert to datetime
+    age = (start_date - dob_datetime).days // 365  # Calculate age in years
+    return age
+
 @app.route("/")
 def home():
     if 'curr_date' not in session:
@@ -95,9 +105,18 @@ def stocks():
     connection.execute(qstr_stock_details)
     stock_details = connection.fetchall()
     
+    print(stock_details)
+
+    # Calculate age for each stock detail
+    stock_details_with_age = []
+    for detail in stock_details:
+        dob = detail[2]  
+        age = calculate_age(dob)
+        stock_details_with_age.append(detail + (age,))  # Append age as a new column
+    
     connection.close()
     
-    return render_template("stocks.html", stocks=stocks, stock_details=stock_details)
+    return render_template("stocks.html", stocks=stocks, stock_details=stock_details_with_age)
 
 
 @app.route("/paddocks")
