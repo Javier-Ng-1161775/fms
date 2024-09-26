@@ -1,25 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}Mobs{% endblock %}
+{% block title %}Stock by Mobs{% endblock %}
 
 {% block content %}
 
 <div class="mt-4">
-    <h2 class="mb-4">Mobs</h2>
+    <h2 class="mb-4">Stock by Mobs</h2>
     <table class="table table-striped table-bordered">
         <thead class="thead-dark">
             <tr>
-                <th>Mob ID</th>
                 <th>Mob Name</th>
                 <th>Paddock Name</th>
+                <th>Number of Stock</th>
+                <th>Average Weight of Mob</th>
             </tr>
         </thead>
         <tbody>
-            {% for mob in mobs %}
+            {% for stock in stocks %}
                 <tr>
-                    <td>{{ mob[0] }}</td>
-                    <td>{{ mob[1] }}</td>
-                    <td>{{ mob[2] }}</td>
+                    <td>{{ stock[0] }}</td>
+                    <td>{{ stock[1] }}</td>
+                    <td>{{ stock[2] }}</td>
+                    <td>{{ stock[3] }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -55,10 +55,40 @@ def reset_date():
 def mobs():
     """List the mob details (excludes the stock in each mob)."""
     connection = getCursor()        
-    qstr = "select id, name from mobs;" 
+    qstr = """
+            SELECT m.id, m.name, p.name
+            FROM mobs m
+            JOIN paddocks p ON m.paddock_id = p.id
+            ORDER BY m.name ASC;
+            """
     connection.execute(qstr)        
     mobs = connection.fetchall()        
     return render_template("mobs.html", mobs=mobs)  
+
+@app.route("/stocks")
+def stocks():
+    """List the stock details"""
+    connection = getCursor()        
+    qstr = """
+            SELECT 
+                m.name AS mob_name, 
+                p.name AS paddock_name,
+                COUNT(s.id) AS number_of_stock, 
+                ROUND(AVG(s.weight),2) AS average_weight
+            FROM 
+                mobs m
+            JOIN 
+                paddocks p ON m.paddock_id = p.id
+            LEFT JOIN 
+                stock s ON m.id = s.mob_id
+            GROUP BY 
+                m.id, p.name
+            ORDER BY 
+                m.name ASC;
+            """
+    connection.execute(qstr)        
+    stocks = connection.fetchall()        
+    return render_template("stocks.html", stocks=stocks)  
 
 @app.route("/paddocks")
 def paddocks():
