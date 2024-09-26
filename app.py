@@ -69,12 +69,13 @@ def mobs():
 def stocks():
     """List the stock details"""
     connection = getCursor()        
-    qstr = """
+    qstr_mob = """
             SELECT 
+                m.id AS mob_id,
                 m.name AS mob_name, 
                 p.name AS paddock_name,
                 COUNT(s.id) AS number_of_stock, 
-                ROUND(AVG(s.weight),2) AS average_weight
+                ROUND(AVG(s.weight), 2) AS average_weight
             FROM 
                 mobs m
             JOIN 
@@ -86,9 +87,18 @@ def stocks():
             ORDER BY 
                 m.name ASC;
             """
-    connection.execute(qstr)        
-    stocks = connection.fetchall()        
-    return render_template("stocks.html", stocks=stocks)  
+    connection.execute(qstr_mob)        
+    stocks = connection.fetchall()
+    
+    # Fetch detailed stock data
+    qstr_stock_details = "SELECT id, mob_id, dob, weight FROM stock;"
+    connection.execute(qstr_stock_details)
+    stock_details = connection.fetchall()
+    
+    connection.close()
+    
+    return render_template("stocks.html", stocks=stocks, stock_details=stock_details)
+
 
 @app.route("/paddocks")
 def paddocks():

@@ -4,7 +4,35 @@
 
 {% block content %}
 
-<div class="mt-4">
+{% for stock in stocks %}
+    <h3>{{ stock[1] }} (Paddock: {{ stock[2] }})</h3>
+    <p>Number of Stock: {{ stock[3] }}</p>
+    <p>Average Weight: {{ stock[4] }}</p>
+
+    <!-- Space for a table related to this mob -->
+    <div class="mb-4">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Stock ID</th>
+                    <th>Date of Birth</th>
+                    <th>Weight</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in stock_details if detail[1] == stock[0] %}
+                    <tr>
+                        <td>{{ detail[0] }}</td>
+                        <td>{{ detail[2] }}</td>
+                        <td>{{ detail[3] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endfor %}
+
+<!-- <div class="mt-4">
     <h2 class="mb-4">Stock by Mobs</h2>
     <table class="table table-striped table-bordered">
         <thead class="thead-dark">
@@ -26,6 +54,6 @@
             {% endfor %}
         </tbody>
     </table>
-</div>
+</div> -->
 
 {% endblock %}
