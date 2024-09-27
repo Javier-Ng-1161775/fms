@@ -5,8 +5,8 @@
 {% block content %}
 
 <!-- templates/add_paddock.html -->
-<div class="container">
-    <h2 class="mt-4">Add New Paddock</h2>
+<div class="container px-2 mt-4">
+    <h2 class="mb-4">Add New Paddock</h2>
     
     <form action="{{ url_for('add_paddock') }}" method="POST">
         <div class="form-group">
@@ -21,8 +21,17 @@
             <label for="dm_per_ha">DM per ha (kg)</label>
             <input type="number" class="form-control" id="dm_per_ha" name="dm_per_ha" required>
         </div>
-        <button type="submit" class="btn btn-success">Add Paddock</button>
+        
+        <div class="d-flex mt-3 mb-4">
+            <div class="me-2">
+                <button type="submit" class="btn btn-primary">Add Paddock</button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-secondary" onclick="location.href='/paddocks'">Return to Paddock</button>
+            </div>
+        </div>
     </form>
 </div>
+
 
 {% endblock %}

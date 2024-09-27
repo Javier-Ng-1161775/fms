@@ -18,7 +18,11 @@
       </div>
     </nav>
 
-    <p>{% if session['curr_date'] %}Today is: {{session['curr_date'].strftime("%d %B %Y")}}{% endif %}</p>
+    <div class="alert alert-info mt-3" role="alert">
+      {% if session['curr_date'] %}
+          <strong>Today is:</strong> {{ session['curr_date'].strftime("%d %B %Y") }}
+      {% endif %}
+    </div>
 
     <section class="content">
       <header>

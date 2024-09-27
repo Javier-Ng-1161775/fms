@@ -1,4 +1,4 @@
-mobsdrop schema if exists fms;
+Drop schema if exists fms;
 create schema fms;
 use fms;
 
