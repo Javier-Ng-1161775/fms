@@ -140,7 +140,6 @@ def stocks():
     
     return render_template("stocks.html", stocks=stocks, stock_details=stock_details_with_age)
 
-
 @app.route("/paddocks")
 def paddocks():
     """List paddock details."""
@@ -184,7 +183,6 @@ def move_mob():
 
     flash("Mob moved successfully!", "success")
     return redirect(url_for("mobs")) 
-
 
 #create a paddocks/add route
 @app.route("/add_paddock", methods=["GET", "POST"])
@@ -255,3 +253,57 @@ def paddock_details_edit_update():
                                             #   data back to Python - so there is no data to assign to a variable from fetchall() or fetchone()
     return redirect("/paddock_details?id="+formvals['id'])   
 
+@app.route("/advance_date", methods=["POST"])
+def advance_date():
+    """Advance the current date by one day and recalculate pasture values."""
+    global start_date
+    start_date += timedelta(days=1)
+
+    # Store the new current date in the session
+    session['curr_date'] = start_date
+    
+    connection = getCursor()
+    
+    # Fetch all paddocks
+    fetch_paddocks_query = """
+    SELECT 
+        p.id AS paddock_id,
+        p.area AS paddock_area,
+        p.total_dm AS total_dm,
+        COUNT(s.id) AS number_of_stock
+    FROM 
+        paddocks p
+    LEFT JOIN 
+        mobs m ON p.id = m.paddock_id
+    LEFT JOIN 
+        stock s ON m.id = s.mob_id
+    GROUP BY 
+        p.id;
+    """
+    connection.execute(fetch_paddocks_query)
+    paddocks = connection.fetchall()
+
+    for paddock in paddocks:
+        paddock_id = paddock[0]
+        area = paddock[1]
+        total_dm = paddock[2]
+        number_of_stock = paddock[3]
+
+        # Calculate growth and consumption
+        growth = area * pasture_growth_rate
+        consumption = number_of_stock * stock_consumption_rate
+
+        # Recalculate total DM
+        new_total_dm = total_dm + growth - consumption
+
+        # Recalculate DM/ha
+        new_dm_per_ha = new_total_dm / area if area > 0 else 0
+
+        # Update paddock details in the database
+        update_query = """UPDATE paddocks 
+                          SET total_dm = %s, dm_per_ha = %s 
+                          WHERE id = %s;"""
+        connection.execute(update_query, (new_total_dm, new_dm_per_ha, paddock_id))
+
+    flash("Current date advanced by one day, and pasture values recalculated!", "success")
+    return redirect(url_for("paddocks"))  # Redirect to paddocks page
