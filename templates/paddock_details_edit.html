@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>{{paddock_details[1]}}</h2>
+<h2>Paddock Name: {{paddock_details[1]}}</h2>
 
 <form action="/paddock_details/edit/update" method="post">   <!-- the URL and method="post" are crucial for app.py to be able to read the data from this form -->
 

@@ -243,10 +243,14 @@ def paddock_details_edit_update():
 
     connection = getCursor()
     formvals = request.form    # Returns a dictionary of {form-element-name: value} pairs
+    
+    # Calculate the total DM based on area and dm_per_ha
+    total_dm = float(formvals['area']) * float(formvals['dm_per_ha'])
+    
     qstr = """update paddocks         
-                set name = %s, area = %s, dm_per_ha = %s					
+                set name = %s, area = %s, dm_per_ha = %s, total_dm = %s					
                 where id = %s;"""   
-    qargs = (formvals['name'], formvals['area'], formvals['dm_per_ha'], formvals['id'])    # 3 parameters to match the 3 %s markers in the order the appear in the query
+    qargs = (formvals['name'], formvals['area'], formvals['dm_per_ha'], total_dm, formvals['id'])    # 3 parameters to match the 3 %s markers in the order the appear in the query
     connection.execute(qstr,qargs)          # The query executes here, but UPDATE queries make the changes in the database, but don't send any
                                             #   data back to Python - so there is no data to assign to a variable from fetchall() or fetchone()
     return redirect("/paddock_details?id="+formvals['id'])   
