@@ -5,12 +5,12 @@
 {% block content %}
 
 {% for stock in stocks %}
-    <h3>{{ stock[1] }} (Paddock: {{ stock[2] }})</h3>
-    <p>Number of Stock: {{ stock[3] }}</p>
-    <p>Average Weight: {{ stock[4] }}</p>
-
-    <!-- Space for a table related to this mob -->
     <div class="container px-1 mt-4">
+        <h3 class="mb-3">{{ stock[1] }} (Paddock: {{ stock[2] }})</h3>
+        <p><strong>Number of Stock:</strong> {{ stock[3] }}</p>
+        <p><strong>Average Weight:</strong> {{ stock[4] }}</p>
+
+        <!-- Space for a table related to this stock -->
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
@@ -33,6 +33,7 @@
         </table>
     </div>
 {% endfor %}
+
 
 
 {% endblock %}
