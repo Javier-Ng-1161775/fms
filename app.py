@@ -30,7 +30,6 @@ def getCursor():
             database=connect.dbname, autocommit=True)
        
     cursor = db_connection.cursor(buffered=False)   # returns a list
-    # cursor = db_connection.cursor(dictionary=True, buffered=False)
    
     return cursor
 
@@ -220,9 +219,9 @@ def paddock_details():
     connection = getCursor()
     id = request.args.get('id')         
     qstr = "SELECT * FROM paddocks WHERE id = %s;"
-    qargs = (id,)   # the items in this tuple are placed into the SQL query where the %s markers are, in the order they appear in the query
-    connection.execute(qstr,qargs)      # Note the second qargs argument, which provides the data to match the %s markers in the qstr 
-    paddock_details = connection.fetchone()      # Returns only one row from the query - as a tuple.
+    qargs = (id,)   
+    connection.execute(qstr,qargs)      
+    paddock_details = connection.fetchone()      
     return render_template("paddock_details.html", paddock_details=paddock_details)
 
 @app.route("/paddock_details/edit", methods=['GET'])
@@ -248,9 +247,9 @@ def paddock_details_edit_update():
     qstr = """update paddocks         
                 set name = %s, area = %s, dm_per_ha = %s, total_dm = %s					
                 where id = %s;"""   
-    qargs = (formvals['name'], formvals['area'], formvals['dm_per_ha'], total_dm, formvals['id'])    # 3 parameters to match the 3 %s markers in the order the appear in the query
-    connection.execute(qstr,qargs)          # The query executes here, but UPDATE queries make the changes in the database, but don't send any
-                                            #   data back to Python - so there is no data to assign to a variable from fetchall() or fetchone()
+    qargs = (formvals['name'], formvals['area'], formvals['dm_per_ha'], total_dm, formvals['id'])    
+    connection.execute(qstr,qargs)          
+                                            
     return redirect("/paddock_details?id="+formvals['id'])   
 
 @app.route("/advance_date", methods=["POST"])
@@ -261,7 +260,7 @@ def advance_date():
 
     # Store the new current date in the session
     session['curr_date'] = start_date
-    
+
     connection = getCursor()
     
     # Fetch all paddocks
