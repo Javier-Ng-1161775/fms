@@ -1,8 +1,45 @@
 # fms
  COMP636 Assignment - Javier Ng Kok How
 
-## Project Report Part 1: 
-1. Discuss design decisions (min 1 per task) and detailed assumptions
+## Project Report Part 1: Design Decisions
+
+This web app has four pages: home page, mobs, paddocks and stock. The homepage contained an image with a blurb on the functionalities of the web app. 
+
+### Mobs
+
+The mobs' webpage lists all the details of the mob and the paddock it is assigned to and gives the user the ability to move mobs between available paddocks. 
+
+#### Move Mobs
+
+Instead of showing all paddocks in the dropdown, it is a better user experience only to show the available paddocks that the mob can be shifted to. This is achieved by using the ‘NOT IN’ SQL statement. When the user executes the ‘move mob’ function, it uses the POST method that retrieves the mob_id from the submitted form data by the user and retrieves the paddock_id of the new paddock that the mob is intending to be moved into. This then triggers an UPDATE query that updates the mobs' table and assigns the paddock_id to a new mob. Once the change has been implemented, it will redirect the user back to the mobs' webpage. 
+
+### Stock 
+
+The stock webpage displays the stocks grouped by mobs and assigned to their respective paddocks. It also shows the stock age and its associated birthdate in the table. There are no user actions on the webpage. 
+
+### Paddocks
+
+The paddocks webpage shows a table with paddock details, the mob that’s assigned to it and the stock numbers in the paddock. This webpage has three input functions. It allows the user to ‘add new paddocks’, ‘edit existing paddocks’ and ‘advance date by one day.’
+
+#### Add Paddock
+
+A user can add new paddocks by inputting the name, area and dm_per_ha into a form when they click on the ‘add paddock’ button. This POST method inserts new values into the database and calculates the total_dm. If the user inputs string values into the area and dm_per_ha, an error will be displayed and the user will have to correct it. Even though add_paddock functionality comes with error handling, it is unlikely that a new paddock cannot be added…. Expand
+
+#### Edit Existing Paddocks
+
+To edit details in the paddock’s table, the user can click on the paddock’s name and they will be directed to the paddock_details page for that specific paddock. A user template form will be displayed where the user can make changes to the name, area, and dm_per_ha. Three app routes have been created to achieve this. 
+ 
+The paddocks_details …. 
+
+The paddock_details/edit … 
+
+The paddock_details/edit/update …
+
+#### Advance Date by One Day
+
+A user can advance the current date by one day when this button is selected. The new date appears as a flash message and the current date, total_dm and dm_per_ha are recalculated and updated in the table.
+
+To recalculate the new total dm and dm per ha based on the stock numbers, the code considers the pasture_growth_rate, and stock_consumption_rate and updates the table in the paddocks table in the database. For a seamless user experience, the function redirects the user back to the paddock webpage after selecting the button.
 
 
 ## Project Report Part 2: 
