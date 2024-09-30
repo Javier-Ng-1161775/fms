@@ -28,11 +28,11 @@ A user can add new paddocks by inputting the *name*, *area* and *dm_per_ha* into
 
 To edit details in the paddock’s table, the user can click on the paddock’s name and they will be directed to the paddock_details page for that specific paddock. A user template form will be displayed where the user can make changes to the *name*, *area*, and *dm_per_ha*. Three app routes have been created to achieve this. 
  
-The paddocks_details …. 
+The paddocks_details is the route that leads to a landing page when user made changes to the paddock's details. It displays the *paddock_id*, *name*, *area*, *dm per ha* and *total_dm*.
 
-The paddock_details/edit … 
+The paddock_details/edit is the route that leads to a page where user can make changes to the paddock's details. Editable fields are the name, area dm per ha and total_dm. Even though the paddock_id is displayed, it cannot be edited. Essentially, this page displays a form that can return data. 
 
-The paddock_details/edit/update …
+The paddock_details/edit/update is the route that updates the database with the new paddock fields. It utilises the POST method as it modifies existing values in the database and recalculates the *total_dm*. Once the change has been implemented, user will be redirected to a unique URL that included the *paddock_id*. 
 
 #### Advance Date by One Day
 
