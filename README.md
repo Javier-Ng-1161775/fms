@@ -9,7 +9,7 @@
 1. What SQL statement creates the mobs table and defines its fields/columns? (Copy and paste the relevant lines of SQL.) 
 
 > CREATE TABLE mobs (
-	id int NOT NULL AUTO_INCREMENT,
+	> id int NOT NULL AUTO_INCREMENT,
 	name varchar(50) DEFAULT NULL,
 	paddock_id int not null,
 	PRIMARY KEY (id),
