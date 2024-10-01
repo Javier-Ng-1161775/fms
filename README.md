@@ -1,5 +1,5 @@
 # fms
- COMP636 Assignment - Javier Ng Kok How
+COMP636 Assignment - Javier Ng Kok How (Student ID: 1161775)
 
 ## Project Report Part 1: Design Decisions
 This web app has four pages: home page, mobs, paddocks and stock. The homepage contained an image with a blurb on the functionalities of the web app. 
