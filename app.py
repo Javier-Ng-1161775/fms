@@ -196,7 +196,16 @@ def add_paddock():
             total_dm = area * dm_per_ha
             
             connection = getCursor()
-            # ACTION REQUIRED: IF SAME NAME AS DATABASE, ERROR
+
+            # Check if paddock with the same name already exists
+            check_query = "SELECT * FROM paddocks WHERE name = %s"
+            connection.execute(check_query, (name,))
+            existing_paddock = connection.fetchone()
+
+            if existing_paddock:
+                flash(f"Paddock with name '{name}' already exists. Please choose a different name.", "danger")
+                return redirect(url_for("add_paddock"))
+         
             # Insert the new paddock into the database
             insert_query = """
             INSERT INTO paddocks (name, area, dm_per_ha, total_dm)
@@ -205,6 +214,8 @@ def add_paddock():
             connection.execute(insert_query, (name, area, dm_per_ha, total_dm))
             
             flash("Paddock added successfully!", "success")
+
+        # Adding an error catch all 
         except Exception as e:
             print(f"Error adding paddock: {e}")
             flash("Failed to add paddock. Please try again.", "danger")
