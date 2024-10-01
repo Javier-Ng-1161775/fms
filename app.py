@@ -196,7 +196,7 @@ def add_paddock():
             total_dm = area * dm_per_ha
             
             connection = getCursor()
-            
+            # ACTION REQUIRED: IF SAME NAME AS DATABASE, ERROR
             # Insert the new paddock into the database
             insert_query = """
             INSERT INTO paddocks (name, area, dm_per_ha, total_dm)
