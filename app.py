@@ -294,9 +294,13 @@ def advance_date():
 
         # Recalculate total DM
         new_total_dm = total_dm + growth - consumption
-
+        if new_total_dm < 0:
+           new_total_dm = 0
+         
         # Recalculate DM/ha
         new_dm_per_ha = new_total_dm / area if area > 0 else 0
+        if new_dm_per_ha < 0:
+           new_dm_per_ha = 0
 
         # Update paddock details in the database
         update_query = """UPDATE paddocks 
