@@ -22,7 +22,7 @@ The paddocks webpage shows a table with paddock details, the mob that’s assign
 
 #### Add Paddock
 
-A user can add new paddocks by inputting the *name*, *area* and *dm_per_ha* into a form when they click on the ‘add paddock’ button. This POST method inserts new values into the database and calculates the *total_dm*. If the user inputs string values into the *area* and *dm_per_ha*, an error will be displayed and the user will have to correct it. Even though *add_paddock* functionality comes with error handling, it is unlikely that a new paddock cannot be added…. **Expand**
+A user can add new paddocks by inputting the *name*, *area* and *dm_per_ha* into a form when they click on the ‘add paddock’ button. This POST method inserts new values into the database and calculates the *total_dm*. If the user inputs string values into the *area* and *dm_per_ha*, an error will be displayed and the user will have to correct it. The *add_paddock* functionality comes with error handling as it considers scenariors such as SQL errors in the event the new paddock name is not unique or connection issues or database capacity (unlikely). 
 
 #### Edit Existing Paddocks
 
