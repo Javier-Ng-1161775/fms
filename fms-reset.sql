@@ -1,59 +1,24 @@
-drop schema if exists fms;
-create schema fms;
-use fms;
+-- Use this script to reset your database back to initial values
 
-CREATE TABLE curr_date (
-    curr_date DATE NOT NULL,
-    PRIMARY KEY (curr_date)
-);
-
-INSERT INTO curr_date VALUES
-	("2024-10-29")
-;
-
-CREATE TABLE paddocks (
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    area FLOAT(2) NOT NULL,
-    dm_per_ha FLOAT(2) NOT NULL,
-    total_dm FLOAT(2) DEFAULT NULL,
-    PRIMARY KEY (id)
-);
+--  Delete/reset values in tables.  WHERE clauses required to get around MySQLs 
+--    safe mode restrictions preventing accidental wiping of tables;
+UPDATE curr_date SET curr_date = "2024-10-29" WHERE curr_date > 0;
+DELETE FROM stock WHERE id >= 0;
+DELETE FROM mobs WHERE id >= 0;
+DELETE FROM paddocks WHERE id >= 0;
 
 INSERT INTO paddocks VALUES
 	(1, "Stream 1", 1.22, 1500, 1.22*1500),
 	(4, "Rear 1", 1.23, 2300, 1.23*2300),
 	(2, "Rear 2", 1.15, 1900, 1.15*1900),
 	(12, "Barn", 0.95, 1750, 0.95*1750)
-;
-
-CREATE TABLE mobs (
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) DEFAULT NULL,
-    paddock_id INT NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE INDEX paddock_idx (paddock_id),
-    CONSTRAINT fk_paddock FOREIGN KEY (paddock_id)
-        REFERENCES paddocks (id)
-        ON DELETE NO ACTION ON UPDATE NO ACTION
-);
+; 
 
 INSERT INTO mobs VALUES
 	(1,"Mob 1", 4),
 	(7,"Mob 2", 1),
 	(2,"Mob 3", 2)
-;
-
-CREATE TABLE stock (
-    id INT NOT NULL AUTO_INCREMENT,
-    mob_id INT DEFAULT NULL,
-    dob DATE NOT NULL,
-    weight FLOAT(2) NOT NULL,
-    PRIMARY KEY (id),
-    CONSTRAINT fk_mob FOREIGN KEY (mob_id)
-        REFERENCES mobs (id)
-        ON DELETE NO ACTION ON UPDATE NO ACTION
-);
+; 
 
 INSERT INTO stock VALUES
 	(1001, 1, '2022-07-25', 586.3),
@@ -81,6 +46,4 @@ INSERT INTO stock VALUES
 	(1023, 2, '2023-07-15', 337.8),
 	(1024, 1, '2022-08-24', 565.3),
 	(1025, 1, '2022-09-03', 558.3),
-	(1026, 7, '2023-09-24', 288.1);
-    
-    
+	(1026, 7, '2023-09-24', 288.1)
