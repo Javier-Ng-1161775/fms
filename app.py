@@ -9,6 +9,8 @@ from datetime import date, datetime, timedelta
 import mysql.connector
 import connect
 
+from pathlib import Path
+
 app = Flask(__name__)
 app.secret_key = 'COMP636 S2'
 
@@ -17,7 +19,14 @@ pasture_growth_rate = 65    #kg DM/ha/day
 stock_consumption_rate = 14 #kg DM/animal/day
 
 db_connection = None
- 
+
+def get_date():
+    cursor = getCursor()        
+    qstr = "select curr_date from curr_date;"  
+    cursor.execute(qstr)        
+    curr_date = cursor.fetchone()[0]        
+    return curr_date
+
 def getCursor():
     """Gets a new dictionary cursor for the database.
     If necessary, a new database connection is created here and used for all
@@ -45,9 +54,14 @@ def calculate_age(dob):
 
 @app.route("/")
 def home():
+    # Check if the current date is in the session; if not, set it to start_date
     if 'curr_date' not in session:
-        session.update({'curr_date': start_date})
-    return render_template("home.html")
+        session['curr_date'] = start_date
+    
+    # Use the session value for curr_date
+    curr_date = session['curr_date']
+    
+    return render_template("home.html", curr_date=curr_date)
 
 @app.route("/clear-date")
 def clear_date():
@@ -59,6 +73,19 @@ def clear_date():
 def reset_date():
     """Reset session['curr_date'] to the project start_date value."""
     session.update({'curr_date': start_date})
+    return redirect(url_for('paddocks'))  
+
+@app.route("/reset")
+def reset():
+    """Reset data to original state."""
+    THIS_FOLDER = Path(__file__).parent.resolve()
+    with open(THIS_FOLDER / 'fms-reset.sql', 'r') as f:
+        mqstr = f.read()
+        for qstr in mqstr.split(";"):
+            cursor = getCursor()
+            cursor.execute(qstr)
+    get_date()
+
     return redirect(url_for('paddocks'))  
 
 @app.route("/mobs")

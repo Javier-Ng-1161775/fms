@@ -32,11 +32,14 @@
     </table>
     <!-- Add Paddock Button -->
     <a href="{{ url_for('add_paddock') }}" class="btn btn-primary mt-3">Add New Paddock</a>
-    <!-- Add this button below your existing content -->
+    <!-- Advance Date Button -->
     <form action="{{ url_for('advance_date') }}" method="POST" class="mt-3">
         <button type="submit" class="btn btn-secondary">Advance Date by One Day</button>
     </form>
-
+    <!-- Reset Database Button -->
+    <form action="{{ url_for('reset') }}" method="GET" class="mt-3">
+        <button type="submit" class="btn btn-danger">Reset Database</button>
+    </form>
 </div>
 
 {% endblock %}
