@@ -2,7 +2,7 @@
 
 --  Delete/reset values in tables.  WHERE clauses required to get around MySQLs 
 --    safe mode restrictions preventing accidental wiping of tables;
-UPDATE curr_date SET curr_date = "2024-10-29" WHERE curr_date > 0;
+-- UPDATE curr_date SET curr_date = "2024-10-29" WHERE curr_date > 0;
 DELETE FROM stock WHERE id >= 0;
 DELETE FROM mobs WHERE id >= 0;
 DELETE FROM paddocks WHERE id >= 0;

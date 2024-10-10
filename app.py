@@ -20,13 +20,6 @@ stock_consumption_rate = 14 #kg DM/animal/day
 
 db_connection = None
 
-def get_date():
-    cursor = getCursor()        
-    qstr = "select curr_date from curr_date;"  
-    cursor.execute(qstr)        
-    curr_date = cursor.fetchone()[0]        
-    return curr_date
-
 def getCursor():
     """Gets a new dictionary cursor for the database.
     If necessary, a new database connection is created here and used for all
@@ -63,18 +56,6 @@ def home():
     
     return render_template("home.html", curr_date=curr_date)
 
-@app.route("/clear-date")
-def clear_date():
-    """Clear session['curr_date']. Removes 'curr_date' from session dictionary."""
-    session.pop('curr_date')
-    return redirect(url_for('paddocks'))  
-
-@app.route("/reset-date")
-def reset_date():
-    """Reset session['curr_date'] to the project start_date value."""
-    session.update({'curr_date': start_date})
-    return redirect(url_for('paddocks'))  
-
 @app.route("/reset")
 def reset():
     """Reset data to original state."""
@@ -84,8 +65,11 @@ def reset():
         for qstr in mqstr.split(";"):
             cursor = getCursor()
             cursor.execute(qstr)
-    get_date()
-
+    
+    # Reset session 
+    session['curr_date'] = start_date
+    flash("Data has been reset, and the date has been set back to the original start date.", "success")
+    
     return redirect(url_for('paddocks'))  
 
 @app.route("/mobs")
@@ -293,11 +277,11 @@ def paddock_details_edit_update():
 @app.route("/advance_date", methods=["POST"])
 def advance_date():
     """Advance the current date by one day and recalculate pasture values."""
-    global start_date
-    start_date += timedelta(days=1)
+    current_date = session.get('curr_date', start_date)
+    current_date += timedelta(days=1)
 
     # Store the new current date in the session
-    session['curr_date'] = start_date
+    session['curr_date'] = current_date
 
     connection = getCursor()
     
