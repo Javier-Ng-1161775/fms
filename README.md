@@ -6,7 +6,7 @@ This web app has four pages: home page, mobs, paddocks and stock. The homepage c
 
 ### Mobs
 
-The mobs' webpage lists all the details of the mob and the paddock it is assigned to and gives the user the ability to move mobs between available paddocks. 
+The mobs' webpage lists all the details of the mob and the paddock it is assigned to and gives the user the ability to move mobs between available paddocks. I've made the decision to include a link that directs the uses to the 'stocks' page, as I feel that users may want to access that easily as opposed to scrolling back up to the top of the webpage to access the 'menu bar.' This is only useful when we have a large number of 'Mobs' in the database that filled the page. 
 
 #### Move Mobs
 
@@ -14,15 +14,15 @@ Instead of showing all paddocks in the dropdown, it is a better user experience 
 
 ### Stock 
 
-The stock webpage displays the stocks grouped by mobs and assigned to their respective paddocks. It also shows the stock age and its associated birthdate in the table. There are no user actions on the webpage. 
+The stock webpage displays the stocks grouped by mobs and assigned to their respective paddocks. It also shows the stock age and its associated birthdate in the table. There are no user actions on the webpage and I have made the decision to add it to the menu bar instead, for ease of navigation. 
 
 ### Paddocks
 
-The paddocks webpage shows a table with paddock details, the mob that’s assigned to it and the stock numbers in the paddock. This webpage has three input functions. It allows the user to ‘add new paddocks’, ‘edit existing paddocks’, ‘advance date by one day' and 'reset the database.' 
+The paddocks webpage shows a table with paddock details, the mob that’s assigned to it and the stock numbers in the paddock. This webpage has four input functions. It allows the user to ‘add new paddocks’, ‘edit existing paddocks’, ‘advance date by one day' and 'reset the database.' I feel that it is a better user experience to line up the buttons one after another and colour-coded for ease of recognition, as opposed to aligning them side by side. 
 
 #### Add Paddock
 
-A user can add new paddocks by inputting the *name*, *area* and *dm_per_ha* into a form when they click on the ‘add paddock’ button. This POST method inserts new values into the database and calculates the *total_dm*. If the user inputs string values into the *area* and *dm_per_ha*, an error will be displayed and the user will have to correct it. The *add_paddock* functionality comes with error handling as it considers scenariors such as SQL errors in the event the new paddock name is not unique or connection issues or database capacity (unlikely). 
+A user can add new paddocks by inputting the *name*, *area* and *dm_per_ha* into a form when they click on the ‘add paddock’ button. This POST method inserts new values into the database and calculates the *total_dm*. If the user inputs string values into the *area* and *dm_per_ha*, an error will be displayed and the user will have to correct it. The *add_paddock* functionality comes with error handling as it considers scenarios such as SQL errors in the event the new paddock name is not unique or connection issues or database capacity (unlikely). It is also possible that the user accidentally clicked on the button or changed their minds about adding a new paddock. As such, I've included a 'Return to paddock' button too so that the user do not have to be compelled to click on the 'back' button on their browser. 
 
 #### Edit Existing Paddocks
 
