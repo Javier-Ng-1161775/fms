@@ -10,7 +10,7 @@ The mobs' webpage lists all the details of the mob and the paddock it is assigne
 
 #### Move Mobs
 
-Instead of showing all paddocks in the dropdown, it is a better user experience only to show the available paddocks that the mob can be shifted to. This is achieved by using the ‘NOT IN’ SQL statement. When the user executes the ‘move mob’ function, it uses the POST method that retrieves the *mob_id* from the submitted form data by the user and retrieves the *paddock_id* of the new paddock that the mob is intending to be moved into. This then triggers an UPDATE query that updates the mobs' table and assigns the *paddock_id* to a new mob. Once the change has been implemented, it will redirect the user back to the mobs' webpage. 
+Instead of showing all paddocks in the dropdown, it is a better user experience only to show the available paddocks that the mob can be shifted to. This is achieved by using the ‘NOT IN’ SQL statement. When the user executes the ‘move mob’ function, it uses the POST method that retrieves the *mob_id* from the submitted form data by the user and retrieves the *paddock_id* of the new paddock that the mob is intending to be moved into. This then triggers an UPDATE query that updates the mobs' table and assigns the *paddock_id* to a new mob. Once the change has been implemented, it feels like a better user experience to redirect the user back to the mobs' webpage to see the change.
 
 ### Stock 
 
@@ -18,7 +18,7 @@ The stock webpage displays the stocks grouped by mobs and assigned to their resp
 
 ### Paddocks
 
-The paddocks webpage shows a table with paddock details, the mob that’s assigned to it and the stock numbers in the paddock. This webpage has three input functions. It allows the user to ‘add new paddocks’, ‘edit existing paddocks’ and ‘advance date by one day.’
+The paddocks webpage shows a table with paddock details, the mob that’s assigned to it and the stock numbers in the paddock. This webpage has three input functions. It allows the user to ‘add new paddocks’, ‘edit existing paddocks’, ‘advance date by one day' and 'reset the database.' 
 
 #### Add Paddock
 
