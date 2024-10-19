@@ -56,7 +56,7 @@ def home():
     
     return render_template("home.html", curr_date=curr_date)
 
-@app.route("/reset")
+@app.route("/reset", methods=["POST"])
 def reset():
     """Reset data to original state."""
     THIS_FOLDER = Path(__file__).parent.resolve()
@@ -65,12 +65,17 @@ def reset():
         for qstr in mqstr.split(";"):
             cursor = getCursor()
             cursor.execute(qstr)
-    
-    # Reset session 
+
+    # Reset session
     session['curr_date'] = start_date
     flash("Data has been reset, and the date has been set back to the original start date.", "success")
     
-    return redirect(url_for('paddocks'))  
+    return redirect(url_for('paddocks'))
+
+@app.route("/confirm_reset")
+def confirm_reset():
+    """Render confirmation page before resetting data."""
+    return render_template("confirm_reset.html")
 
 @app.route("/mobs")
 def mobs():
@@ -104,7 +109,7 @@ def mobs():
 def stocks():
     """List the stock details"""
     connection = getCursor()        
-    qstr_mob = """
+    qstr_stock = """
     SELECT 
         m.id AS mob_id,
         m.name AS mob_name, 
@@ -122,7 +127,7 @@ def stocks():
     ORDER BY 
         m.name ASC;
     """
-    connection.execute(qstr_mob)        
+    connection.execute(qstr_stock)        
     stocks = connection.fetchall()
     
     # Fetch detailed stock data
@@ -173,7 +178,7 @@ def paddocks():
         p.id, m.id
     ORDER BY 
         p.name ASC;
-            """
+    """
     connection.execute(qstr_paddocks)        
     paddocks = connection.fetchall()     
     return render_template("paddocks.html", paddocks=paddocks)  

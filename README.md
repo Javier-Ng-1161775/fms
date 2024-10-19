@@ -42,7 +42,7 @@ To recalculate the new *total_dm* and *dm_per_ha* based on the stock numbers, th
 
 #### Reset Database
 
-This button's function is simply to reset the database back to the original date of 29 October 2024. 
+This button's function is simply to reset the database back to the original date of 29 October 2024. As this process is irreversible, I have decided to create a confirm_reset.html page that checks with the user if this is indeed the action they want to proceed ahead with. It is possible that they may have accidentally clicked on it. s
 
 
 ## Project Report Part 2: 
