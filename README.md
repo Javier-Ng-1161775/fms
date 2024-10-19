@@ -40,6 +40,8 @@ A user can advance the current date by one day when this button is selected. The
 
 To recalculate the new *total_dm* and *dm_per_ha* based on the stock numbers, the code considers the *pasture_growth_rate*, and *stock_consumption_rate* and updates the table in the paddocks table in the database. For a seamless user experience, the function 'redirects' the user back to the paddock webpage after selecting the button; however, the user will feel like they have not left the page. 
 
+I've also made the decision to restrict the table from displaying negative values as it is not possible to have *total_dm* below 0. Thus, for any negative values, they are displayed as 0 instead. 
+
 #### Reset Database
 
 This button's function is simply to reset the database back to the original date of 29 October 2024. As this process is irreversible, I have decided to create a confirm_reset.html page that checks with the user if this is indeed the action they want to proceed ahead with. It is possible that they may have accidentally clicked on it. s
