@@ -22,7 +22,7 @@ The paddocks webpage shows a table with paddock details, the mob that’s assign
 
 #### Add Paddock
 
-A user can add new paddocks by inputting the *name*, *area* and *dm_per_ha* into a form when they click on the ‘add paddock’ button. This POST method inserts new values into the database and calculates the *total_dm*. If the user inputs string values into the *area* and *dm_per_ha*, an error will be displayed and the user will have to correct it. The *add_paddock* functionality comes with error handling as it considers scenarios such as SQL errors in the event the new paddock name is not unique or connection issues or database capacity (unlikely). It is also possible that the user accidentally clicked on the button or changed their minds about adding a new paddock. As such, I've included a 'Return to paddock' button too so that the user do not have to be compelled to click on the 'back' button on their browser. 
+A user can add new paddocks by inputting the *name*, *area* and *dm_per_ha* into a form when they click on the ‘add paddock’ button. This POST method inserts new values into the database and calculates the *total_dm*. If the user inputs string values into the *area* and *dm_per_ha*, an error will be displayed and the user will have to correct it. The *add_paddock* functionality comes with error handling as it considers scenarios such as SQL errors in the event the new paddock name is not unique or connection issues or database capacity (unlikely). It is also possible that the user accidentally clicked on the button or changed their minds about adding a new paddock. As such, I've included a 'Return to paddock' button too so that the user do not have to be compelled to click on the 'back' button on their browser to return to the previous page i.e. paddocks. 
 
 #### Edit Existing Paddocks
 
@@ -30,15 +30,19 @@ To edit details in the paddock’s table, the user can click on the paddock’s 
  
 The paddocks_details is the route that leads to a landing page when user made changes to the paddock's details. It displays the *paddock_id*, *name*, *area*, *dm per ha* and *total_dm*.
 
-The paddock_details/edit is the route that leads to a page where user can make changes to the paddock's details. Editable fields are the name, area dm per ha and total_dm. Even though the paddock_id is displayed, it cannot be edited. Essentially, this page displays a form that can return data. 
+The paddock_details/edit is the route that leads to a page where user can make changes to the paddock's details. Editable fields are the name, area dm per ha and total_dm. Even though the paddock_id is displayed, it cannot be edited as there's no point for the user to have that level of control. Essentially, this page displays a form that can return data. 
 
-The paddock_details/edit/update is the route that updates the database with the new paddock fields. It utilises the POST method as it modifies existing values in the database and recalculates the *total_dm*. Once the change has been implemented, user will be redirected to a unique URL that included the *paddock_id*. 
+The paddock_details/edit/update is the route that updates the database with the new paddock fields. It utilises the POST method as it modifies existing values in the database and recalculates the *total_dm*. Once the change has been implemented, user will be redirected to a unique URL that included the *paddock_id*, and they can see their updated change. 
 
 #### Advance Date by One Day
 
 A user can advance the current date by one day when this button is selected. The new date appears as a flash message and the *current date*, *total_dm* and *dm_per_ha* are recalculated and updated in the table.
 
-To recalculate the new *total_dm* and *dm_per_ha* based on the stock numbers, the code considers the *pasture_growth_rate*, and *stock_consumption_rate* and updates the table in the paddocks table in the database. For a seamless user experience, the function redirects the user back to the paddock webpage after selecting the button.
+To recalculate the new *total_dm* and *dm_per_ha* based on the stock numbers, the code considers the *pasture_growth_rate*, and *stock_consumption_rate* and updates the table in the paddocks table in the database. For a seamless user experience, the function 'redirects' the user back to the paddock webpage after selecting the button; however, the user will feel like they have not left the page. 
+
+#### Reset Database
+
+This button's function is simply to reset the database back to the original date of 29 October 2024. 
 
 
 ## Project Report Part 2: 
